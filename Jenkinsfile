@@ -1,5 +1,16 @@
 pipeline {
     agent any
+
+    environment {
+       APP_NAME = "my-java-app" 
+       APP_VERSION = "1.0"
+       APP_ENV = "production"
+    }
+
+    parameters {
+      string(name: "APP_NAME", defaultValue: "dennis-java-app", description: "Name of the application")
+    }
+    
     stages {
         // stage('Checkout') {
             // steps {
@@ -18,7 +29,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying Java app...'
+              sh '''
+                echo 'Deploying $APP_NAME version $APP_VERSION to $APP_ENV environment...'
+                '''
             }
         }
     }
