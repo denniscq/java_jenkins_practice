@@ -8,7 +8,7 @@ pipeline {
     }
 
     parameters {
-      string(name: "APP_NAME", defaultValue: "dennis-java-app", description: "Name of the application")
+      string(name: "APP_NAME1", defaultValue: "dennis-java-app", description: "Name of the application")
     }
 
     stages {
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh '''
                 echo "--------------------------------"
-                echo "Deploying $APP_NAME version $APP_VERSION to $APP_ENV environment..."
+                echo "Deploying ${params.APP_NAME1} version $APP_VERSION to $APP_ENV environment..."
                 '''
             }
         }
