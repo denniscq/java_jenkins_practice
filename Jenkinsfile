@@ -25,10 +25,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                echo "Current Environment Variables:"
-                printenv | sort
                 echo "--------------------------------"
-                echo "Deploying $APP_NAME version $APP_VERSION to $APP_ENV environment..."
+                echo "Deploying ${params.APP_NAME} version $APP_VERSION to $APP_ENV environment..."
                 '''
             }
         }
