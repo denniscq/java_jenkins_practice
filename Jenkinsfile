@@ -71,11 +71,13 @@ pipeline {
             echo "Pipeline failed!"
         }
         always {
+          script {
           if (env.NODE_NAME) {
               echo "📌 Cleaning up workspace..."
               sh 'docker system prune -f'  // 清理不必要的 Docker 镜像
           } else {
               echo "No workspace context available for cleanup."
+          }
            }
         }
     }
