@@ -70,8 +70,10 @@ pipeline {
             echo "Pipeline failed!"
         }
         always {
-          echo "📌 Cleaning up workspace..."
-          sh 'docker system prune -f'  // 清理不必要的 Docker 镜像
+          script {
+                echo "📌 Cleaning up workspace..."
+                sh 'docker system prune -f'  // 清理不必要的 Docker 镜像
+          }
         }
     }
 }
