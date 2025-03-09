@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh '''
                 echo "--------------------------------"
-                echo "Deploying ${params.APP_NAME} version $APP_VERSION to $APP_ENV environment..."
+                echo "Deploying $APP_NAME version $APP_VERSION to $APP_ENV environment..."
                 '''
             }
         }
