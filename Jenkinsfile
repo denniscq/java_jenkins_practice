@@ -1,34 +1,77 @@
 pipeline {
-    agent any
-
-    environment {
-       APP_NAME = "my-java-app" 
-       APP_VERSION = "1.0"
-       APP_ENV = "production"
+    agent {
+        docker {
+            image 'ubuntu:22.04'  // 运行环境
+            args '--privileged'   // 允许 Docker 运行
+        }
     }
 
-    parameters {
-      string defaultValue: 'dennis-java-app', description: 'dennis-java-app', name: 'APP_NAME1'
+    environment {
+        DOCKER_IMAGE = "dennis/java-docker-app"  // Docker 镜像名称
+        DOCKER_TAG = "latest"                   // 镜像版本
+        DOCKER_CREDENTIALS_ID = "docker-hub-credentials"  // 在 Jenkins 配置的 Docker Hub 凭据 ID
     }
 
     stages {
         stage('Build') {
             steps {
-                sh 'javac Main.java'
+                sh 'mvn clean package -DskipTests'  // 如果是 Java 项目
             }
         }
+
         stage('Test') {
             steps {
-                echo 'Running tests...'
+                sh 'mvn test'
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                }
+            }
+        }
+
+        stage('Login to Docker Hub') {
+            steps {
+                // script {
+                //     withDockerRegistry([credentialsId: DOCKER_CREDENTIALS_ID, url: ""]) {
+                //     }
+                // }
+              sh "echo 'Docker login successful'"
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                // script {
+                //     sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                // }
+              sh "echo 'Docker push successful'"
+            }
+        }
+
         stage('Deploy') {
             steps {
                 sh '''
-                echo "--------------------------------"
-                echo "Deploying $APP_NAME1 version $APP_VERSION to $APP_ENV environment..."
+                echo "Deploying ${DOCKER_IMAGE}:${DOCKER_TAG} to production..."
+                docker run --rm --name my-app ${DOCKER_IMAGE}:${DOCKER_TAG}
                 '''
             }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline executed successfully!"
+        }
+        failure {
+            echo "Pipeline failed!"
+        }
+        always {
+          echo "📌 Cleaning up workspace..."
+          sh 'docker system prune -f'  // 清理不必要的 Docker 镜像
         }
     }
 }
