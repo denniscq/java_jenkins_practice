@@ -12,11 +12,6 @@ pipeline {
     }
 
     stages {
-        // stage('Checkout') {
-            // steps {
-            //     git 'https://github.com/your-username/jenkins-java-demo.git'
-            // }
-        // }
         stage('Build') {
             steps {
                 sh 'javac Main.java'
@@ -29,8 +24,11 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-              sh '''
-                echo 'Deploying ${env.APP_NAME} version ${APP_VERSION} to ${APP_ENV} environment...'
+                sh '''
+                echo "Current Environment Variables:"
+                printenv | sort
+                echo "--------------------------------"
+                echo "Deploying $APP_NAME version $APP_VERSION to $APP_ENV environment..."
                 '''
             }
         }
