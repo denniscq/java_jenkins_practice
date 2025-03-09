@@ -7,6 +7,7 @@ pipeline {
     }
 
     environment {
+        DOCKER_TLS_CERTDIR = ""
         DOCKER_IMAGE = "dennis/java-docker-app"  // Docker 镜像名称
         DOCKER_TAG = "latest"                   // 镜像版本
         DOCKER_CREDENTIALS_ID = "docker-hub-credentials"  // 在 Jenkins 配置的 Docker Hub 凭据 ID
@@ -70,10 +71,12 @@ pipeline {
             echo "Pipeline failed!"
         }
         always {
-          script {
-                echo "📌 Cleaning up workspace..."
-                sh 'docker system prune -f'  // 清理不必要的 Docker 镜像
-          }
+          if (env.NODE_NAME) {
+              echo "📌 Cleaning up workspace..."
+              sh 'docker system prune -f'  // 清理不必要的 Docker 镜像
+          } else {
+              echo "No workspace context available for cleanup."
+           }
         }
     }
 }
