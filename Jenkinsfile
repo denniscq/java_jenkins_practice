@@ -8,7 +8,7 @@ pipeline {
     }
 
     parameters {
-      string(name: "APP_NAME1", defaultValue: "dennis-java-app", description: "Name of the application")
+      string defaultValue: 'dennis-java-app', description: 'dennis-java-app', name: 'APP_NAME1'
     }
 
     stages {
