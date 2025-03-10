@@ -21,8 +21,8 @@ pipeline {
 
         stage('Install Docker') {
             steps {
-                script{
-                 sh 'apt-get update && apt-get install -y docker.io'
+                script {
+                    sh 'apt-get update && apt-get install -y docker.io'
                 }
             }
         }
@@ -56,7 +56,12 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                docker run --rm --name my-app ${DOCKER_IMAGE}:${DOCKER_TAG}
+                script {
+                    sh '''
+                    echo 'Deploying Docker image to production environment...'
+                    docker run --rm --name my-app ${DOCKER_IMAGE}:${DOCKER_TAG}
+                    '''
+                }
             }
         }
     }
