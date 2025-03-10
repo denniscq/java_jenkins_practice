@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'ubuntu:22.04'  // 运行环境
-            args '--privileged'   // 允许 Docker 运行
+            args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'   // 允许 Docker 运行
         }
     }
 
