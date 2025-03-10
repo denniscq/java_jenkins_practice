@@ -7,8 +7,8 @@ pipeline {
     }
 
     environment {
-        DOCKER_TLS_VERIFY= '0'
-        DOCKER_TLS_CERTDIR = ""
+        DOCKER_HOST = "unix:///var/run/docker.sock"
+        DOCKER_CERT_PATH= '/certs/client'
         DOCKER_IMAGE = "dennis/java-docker-app"  // Docker 镜像名称
         DOCKER_TAG = "latest"                   // 镜像版本
         DOCKER_CREDENTIALS_ID = "docker-hub-credentials"  // 在 Jenkins 配置的 Docker Hub 凭据 ID
