@@ -21,14 +21,16 @@ pipeline {
 
         stage('Install Docker') {
             steps {
-                apt-get update && apt-get install -y docker.io
+                script{
+                 sh 'apt-get update && apt-get install -y docker.io'
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG}
+                    sh 'docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG}'
                 }
             }
         }
