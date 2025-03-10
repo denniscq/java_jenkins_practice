@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'ubuntu:22.04'  // 运行环境
-            args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'   // 允许 Docker 运行
+            args '--privileged'
         }
     }
 
@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh 'echo "run test unit"'
+                echo "run test unit"
             }
         }
 
@@ -33,7 +33,7 @@ pipeline {
                 //     withDockerRegistry([credentialsId: DOCKER_CREDENTIALS_ID, url: ""]) {
                 //     }
                 // }
-              sh "echo 'Docker login successful'"
+              echo 'Docker login successful'
             }
         }
 
@@ -42,7 +42,7 @@ pipeline {
                 // script {
                 //     sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 // }
-              sh "echo 'Docker push successful'"
+              echo 'Docker push successful'
             }
         }
 
