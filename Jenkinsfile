@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_TLS_VERIFY= 1
+        DOCKER_TLS_VERIFY= '0'
         DOCKER_TLS_CERTDIR = ""
         DOCKER_IMAGE = "dennis/java-docker-app"  // Docker 镜像名称
         DOCKER_TAG = "latest"                   // 镜像版本
